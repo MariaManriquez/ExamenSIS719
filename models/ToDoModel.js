@@ -1,27 +1,16 @@
 import mongoose from "../connection/connect.js";
-import modelenum from "../utils/enumModel.js";
-import mongoose from "mongoose";
-import RolesModel from "./rolesModel.js";
-import RolesModel from "./rolesModel.js";
+
 class ToDoModel {
     constructor() {
-        var roles = new RolesModel();
         this.Schema = mongoose.Schema;
-        this.UserSchema = new this.Schema({
+        this.TodoSchema = new this.Schema({
             name: String,
             description: String,
             date: Date,
             hour: String,
             done: Boolean
         });
-
-    if (modelenum["todo"] == null) {
-        this.mymodel = mongoose.model("todo", this.todoSchema);
-        modelenum["todo"] = this.mymodel;
-    }
-    else {
-        this.mymodel = modelenum["todo"];
-        }
+        this.mymodel = mongoose.model("todo", this.TodoSchema); 
     }
 
     createToDo(name, description, date, hour, done){
@@ -32,14 +21,9 @@ class ToDoModel {
             hour,
             done,
         };
-        var newTD = new.this.mymodel(TD);
-        var error = newTD.validateSync();
+        var newTD = new this.mymodel(TD);
         return new Promise((resolve, reject) => {
-            if (error) {
-              resolve(error);
-              return;
-            }
-            newuTD.save().then((docs) => {
+            newTD.save().then((docs) => {
               console.log("Tarea registrada");
               resolve(docs);
             });
@@ -47,12 +31,8 @@ class ToDoModel {
     }
 
     getToDo(){
-        var filter = {};
-        if (filterdata != null) {
-            filter = filterdata;
-        }
         return new Promise((resolve, reject) => {
-            this.mymodel.find(filter, (err, docs) => {
+            this.mymodel.find({}, (err, docs) => {
                 if (err) {
                     console.log(err);
                     resolve(err);
@@ -78,7 +58,7 @@ class ToDoModel {
 
     deleteToDo(id){
         return new Promise((resolve, reject) => {
-            this.mymodel.remove({ _id: id }).then((err, docs) => {
+            this.mymodel.remove({_id:id }).then((err, docs) => {
                 if (err) {
                     console.log(err);
                     resolve(err);
@@ -88,11 +68,20 @@ class ToDoModel {
             });
         });
     }
-    getModel() {
-        return this.mymodel;
+
+    updateDone(id, DoneUpdate){
+        return new Promise((resolve, reject) => {
+            this.mymodel.update({ _id: id }, { $set: DoneUpdate }, (err, docs) => {
+              if (err) {
+                console.log(err);
+                resolve(err);
+                return;
+              }
+              resolve(docs);
+            });
+        });
     }
-    getSchema() {
-        return this.UserSchema;
-    }
+
+   
 }
 export default ToDoModel;

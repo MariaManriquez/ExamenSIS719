@@ -1,21 +1,24 @@
 import express from "express";
 import IndexController from "../controller/indexController.js";
 import UserController from "../controller/userController.js";
+//import TodoContoller from "../controller/ToDoController.js";
 import RolesController from "../controller/rolesContoller.js";
-import JsonWebTokenManagement from "../middleware/JsonWebTokenManagement.js";
+//import JsonWebTokenManagement from "../middleware/JsonWebTokenManagement.js";
+
 
 var router = express.Router();
 var indexControler = new IndexController();
 var userController = new UserController();
 var rolesController = new RolesController();
-var jsonwebtokenmanagement = new JsonWebTokenManagement();
+//var todoController = new TodoContoller;
+//var jsonwebtokenmanagement = new JsonWebTokenManagement();
 /* GET home page. */
 /**
  * Endpoints de los usuarios
  * // Servicios de los usuarios
  */
 router.get("/", indexControler.index);
-router.post("/login", indexControler.login);
+//router.post("/login", indexControler.login);
 /**
  * SERVICIO PROTEGIDO
  */
@@ -40,5 +43,11 @@ router.delete("/roles/:id", rolesController.deleteRol);
 /* 
 Implemente 
 */
+//RUTAS DEL PARCIAL
+//router.get("/todo", todoController.getToDo);
+//router.post("/tarea", todoController.createToDo);
+//router.put("/tarea/:id", todoController.updateToDo);
+//router.delete("/tarea/:id", todoController.deleteToDo);
+//router.put("/done/:id", todoController.updateDone);*/
 
 export default router;

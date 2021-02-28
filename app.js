@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import mustacheExpress from "mustache-express";
 import indexRouter from "./routes/routes.js";
+import parcialRouter from "./routes/routesParcial.js";
 import fileUpload from "express-fileupload";
 import dotenv from "dotenv";
 
@@ -27,7 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+app.use("/index", indexRouter);
+app.use("/",parcialRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
